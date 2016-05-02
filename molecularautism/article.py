@@ -1,3 +1,5 @@
+from .fullarticle import FullArticle
+
 MOLECULAR_AUTISM_HOME = "http://molecularautism.biomedcentral.com"
 
 
@@ -21,3 +23,6 @@ class Article:
     @staticmethod
     def from_html(article):
         return Article(article)
+
+    def to_full_article(self):
+        return FullArticle(self.url)

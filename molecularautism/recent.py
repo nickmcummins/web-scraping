@@ -30,4 +30,18 @@ class MolecularAutismRecent:
         else:
             bs_obj = BeautifulSoup(page_html.read(), "lxml")
             recent_articles = bs_obj.find("div", {"id": "recent-articles"}).findAll("a", {"class": "fulltexttitle"})
+            print(recent_articles)
             return list(map(Article.from_html, recent_articles))
+
+    def download_articles(self):
+        for article in self.recentArticles:
+            downloaded = self.downloadedArticles
+            if article.id not in downloaded:
+                print(article.id)
+                downloaded.append(article.id)
+                full_article = article.to_full_article()
+                full_article.download_pdf()
+                full_article.download_html()
+                with open(YAML_STORE, 'w') as file:
+                    yaml.dump(downloaded, file)
+
